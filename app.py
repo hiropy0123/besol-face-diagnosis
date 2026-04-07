@@ -7,7 +7,6 @@ import json
 from pathlib import Path
 
 import cv2
-import mediapipe as mp
 import numpy as np
 import streamlit as st
 from PIL import Image, ImageOps
@@ -104,9 +103,7 @@ if run and image_source is not None:
         h, w = bgr.shape[:2]
 
         landmarker = load_face_mesh()
-        rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-        result = landmarker.detect(mp_image)
+        result = landmarker.detect(bgr)
 
         if not result.face_landmarks:
             st.error("😢 顔が検出できませんでした。正面を向いた、明るくはっきり写った写真を使ってください。")
